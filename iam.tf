@@ -2,7 +2,7 @@ resource "google_service_account" "main" {
   provider = google-beta
 
   account_id   = "${var.environment}-api-standard"
-  display_name = "A service for the identity service container"
+  display_name = "A service for the standard service container"
 }
 
 resource "google_spanner_database_iam_member" "main" {
