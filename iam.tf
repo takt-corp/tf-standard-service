@@ -5,6 +5,14 @@ resource "google_service_account" "main" {
   display_name = "A service for the standard service container"
 }
 
+resource "google_project_iam_member" "signed_url_creator" {
+  provider = google-beta
+
+  project = var.project_id
+  role    = "roles/iam.serviceAccountTokenCreator"
+  member  = "serviceAccount:${google_service_account.main.email}"
+}
+
 resource "google_spanner_database_iam_member" "main" {
   provider = google-beta
 
@@ -14,7 +22,7 @@ resource "google_spanner_database_iam_member" "main" {
   member   = "serviceAccount:${google_service_account.main.email}"
 }
 
-resource "google_storage_bucket_iam_member" "api" {
+resource "google_storage_bucket_iam_member" "main" {
   provider = google-beta
 
   bucket = data.terraform_remote_state.platform.outputs.bucket_name
